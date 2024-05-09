@@ -93,9 +93,26 @@ pipeline{
             }
         }
 
+        stage("Start minikube"){
+            steps{
+                sh "minikube start"
+            }
+        
+        }
+
         stage("Deploy to miniKube"){
             steps{
-                sh "kubectl apply -f k8s/deployment.yaml"
+                sh "kubectl apply -f k8s/Deployment.yaml"
+            }
+        }
+
+        stage("Map deployment port to vm localhost"){
+            steps{
+                script{
+                    sh "chmod +x portForward.sh"
+                    def ip = sh(script: 'minikube ip', returnStdout: true).trim()
+                    sh "./portForward.sh $ip 30036"
+                }
             }
         }
 
