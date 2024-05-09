@@ -14,3 +14,18 @@ npm start
 # Build for production
 npm run build
 ```
+
+
+<!-- DOCKER -->
+
+## Docker
+
+```bash
+# Build image
+docker build -t react-todo .
+
+# Run container
+docker run -p 8000:80 --name react-todo -d react-todo
+```
+
+Navigate to `http://localhost:8000`
