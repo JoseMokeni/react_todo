@@ -79,19 +79,25 @@ pipeline{
                 script{
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
                         docker.image("josemokeni/react-todo:${env.BUILD_NUMBER}").push()
+                        // push :latest
+                        docker.image("josemokeni/react-todo:${env.BUILD_NUMBER}").push("latest")
                     }
 
                 }
             }
         }
 
-        stage("Delete Image"){
+        stage("Prune"){
             steps{
-                script{
-                    docker.image("josemokeni/react-todo:${env.BUILD_NUMBER}").remove()
-                }
+                sh "docker system prune -f"
             }
         }
-         
+
+        stage("Deploy to miniKube"){
+            steps{
+                sh "kubectl apply -f k8s/deployment.yaml"
+            }
+        }
+
     }
 }
