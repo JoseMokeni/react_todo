@@ -98,14 +98,14 @@ pipeline {
                 sh "kubectl apply -f k8s/Deployment.yaml"
             }
         }
-        stage("Map deployment port to vm localhost") {
-            steps {
-                script {
-                    sh "chmod +x portForward.sh"
-                    def ip = sh(script: 'minikube ip', returnStdout: true).trim()
-                    sh "./portForward.sh $ip 30036"
-                }
-            }
-        }
+        // stage("Map deployment port to vm localhost") {
+        //     steps {
+        //         script {
+        //             sh "chmod +x portForward.sh"
+        //             def ip = sh(script: 'minikube ip', returnStdout: true).trim()
+        //             sh "./portForward.sh $ip 30036"
+        //         }
+        //     }
+        // }
     }
 }
