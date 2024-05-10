@@ -80,19 +80,19 @@ pipeline {
                 sh "docker system prune -f"
             }
         }
-        stage("Start minikube") {
-            steps {
-                script {
-                    def status = sh(script: "minikube status --format '{{.Host}}'", returnStdout: true).trim()
-                    if (status == "Running") {
-                        echo "Minikube is already running."
-                    } else {
-                        echo "Minikube is not running. Starting Minikube..."
-                        sh "minikube start --driver=docker"
-                    }
-                }
-            }
-        }
+        // stage("Start minikube") {
+        //     steps {
+        //         script {
+        //             def status = sh(script: "minikube status --format '{{.Host}}'", returnStdout: true).trim()
+        //             if (status == "Running") {
+        //                 echo "Minikube is already running."
+        //             } else {
+        //                 echo "Minikube is not running. Starting Minikube..."
+        //                 sh "minikube start --driver=docker"
+        //             }
+        //         }
+        //     }
+        // }
         stage("Deploy to miniKube") {
             steps {
                 sh "kubectl apply -f k8s/Deployment.yaml"
