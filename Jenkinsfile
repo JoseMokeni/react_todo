@@ -32,7 +32,7 @@ pipeline{
         stage("Sonarqube analysis"){
             steps{
                 withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token', installationName: 'sonarqube-scanner'){
-                    sh "npx sonar-scanner"
+                    sh "npx sonar-scanner -Dsonar.projectName=react_todo -Dsonar.projectKey=react_todo -Dsonar.sources=src"
                 }
             }
         }
