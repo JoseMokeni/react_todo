@@ -12,9 +12,6 @@ pipeline{
                 cleanWs()
             }
         }
-    }
-
-    stages{
         stage("Checkour from Git"){
             steps{
                 git branch: 'master', url: 'https://github.com/JoseMokeni/react_todo.git'
