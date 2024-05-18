@@ -23,32 +23,13 @@ sudo usermod -aG docker vagrant
 # Apply the changes
 newgrp docker
 
-# Install java 17
-sudo apt-get install -y openjdk-17-jdk
-
-# Install jenkins
-wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key |sudo gpg --dearmor -o /usr/share/keyrings/jenkins.gpg
-sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-sudo apt-get update -y
-sudo apt-get install -y jenkins
-
-# add jenkins user to docker group
-sudo usermod -aG docker jenkins
-
-newgrp docker
-
-# Install Trivy
-sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-sudo apt-get update -y
-sudo apt-get install trivy -y
-
-# pull sonarqube, postgres, prometheus, grafana
+# pull sonarqube, postgres, prometheus, grafana, jenkins and docker:dind
 docker pull sonarqube
 docker pull postgres
 docker pull prom/prometheus
 docker pull grafana/grafana
+docker pull josemokeni/jenkins-trivy
+docker pull docker:dind
 
 # Install minikube
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
