@@ -20,13 +20,20 @@ pipeline{
         stage("Build application"){
             steps{
                 sh "npm install"
-                sh "npm run build"
             }
         }
 
         stage("Test application"){
             steps{
                 sh "npm run test"
+            }
+        }
+
+        stage("Sonarqube analysis"){
+            steps{
+                withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token'){
+                    sh "npx sonarqube-scanner"
+                }
             }
         }
     }
