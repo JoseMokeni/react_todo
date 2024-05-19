@@ -44,8 +44,8 @@ sudo mv kubectl /usr/local/bin/
 # minikube start 
 minikube start --driver=docker
 
-# start /shared/docker-compose.yml
-docker-compose -f /shared/docker-compose.yml up -d
+# start /vagrant/docker-compose.yml
+docker-compose -f /vagrant/docker-compose.yml up -d
 
 # git configuration
 git config --global user.name "Jose Mokeni"
