@@ -4,6 +4,15 @@ pipeline{
         nodejs "nodejs-16"
         dockerTool "docker"
     }
+
+    environment{
+        APP_NAME = "react-todo"
+        RELEASE = "1.0.0"
+        DOCKER_USER = "josemokeni"
+        DOCKER_CREDENTIALS = 'dockerhub'
+        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+    }
     stages{
         stage("Clean workspace"){
             steps{
@@ -11,7 +20,7 @@ pipeline{
             }
         }
 
-        stage("Checkour from Git"){
+        stage("Checkout from Git"){
             steps{
                 git branch: 'master', url: 'https://github.com/JoseMokeni/react_todo.git'
             }
@@ -40,6 +49,18 @@ pipeline{
         stage("Quality Gate"){
             steps{
                 waitForQualityGate abortPipeline: false
+            }
+        }
+
+        stage("Build & Push Docker image"){
+            steps{
+                script{
+                    docker.withRegistry('', DOCKER_CREDENTIALS){
+                        def dockerImage = docker.build("${IMAGE_NAME}")
+                        dockerImage.push("${IMAGE_TAG}")
+                        dockerImage.push("latest")
+                    }
+                }
             }
         }
     }
