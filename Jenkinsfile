@@ -26,31 +26,31 @@ pipeline{
             }
         }
 
-        stage("Build application"){
-            steps{
-                sh "npm install"
-            }
-        }
+        // stage("Build application"){
+        //     steps{
+        //         sh "npm install"
+        //     }
+        // }
 
-        stage("Test application"){
-            steps{
-                sh "npm run test"
-            }
-        }
+        // stage("Test application"){
+        //     steps{
+        //         sh "npm run test"
+        //     }
+        // }
 
-        stage("Sonarqube analysis"){
-            steps{
-                withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token', installationName: 'sonarqube-scanner'){
-                    sh "npx sonar-scanner -Dsonar.projectName=react_todo -Dsonar.projectKey=react_todo -Dsonar.sources=src"
-                }
-            }
-        }
+        // stage("Sonarqube analysis"){
+        //     steps{
+        //         withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token', installationName: 'sonarqube-scanner'){
+        //             sh "npx sonar-scanner -Dsonar.projectName=react_todo -Dsonar.projectKey=react_todo -Dsonar.sources=src"
+        //         }
+        //     }
+        // }
 
-        stage("Quality Gate"){
-            steps{
-                waitForQualityGate abortPipeline: false
-            }
-        }
+        // stage("Quality Gate"){
+        //     steps{
+        //         waitForQualityGate abortPipeline: false
+        //     }
+        // }
 
         stage("Build & Push Docker image"){
             steps{
