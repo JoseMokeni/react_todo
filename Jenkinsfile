@@ -54,8 +54,8 @@ pipeline{
 
         stage("Build & Push Docker image"){
             steps{
-                script{
-                    docker.withRegistry('', DOCKER_CREDENTIALS){
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
                         def dockerImage = docker.build("${IMAGE_NAME}")
                         dockerImage.push("${IMAGE_TAG}")
                         dockerImage.push("latest")
