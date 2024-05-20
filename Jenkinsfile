@@ -56,12 +56,11 @@ pipeline{
             steps{
                 script {
                     docker.withTool("docker"){
-                        sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
-                        sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
-                        sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
-                        // latest tag
-                        sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
-                        sh "docker push ${IMAGE_NAME}:latest"
+                        docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS){
+                            def customImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                            customImage.push()
+                            customImage.push("latest")
+                        }
                     }
                 }
             }
