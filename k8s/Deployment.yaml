@@ -14,5 +14,6 @@ spec:
       containers:
       - name: react-todo
         image: josemokeni/react-todo
+        imagePullPolicy: Always
         ports:
         - containerPort: 80

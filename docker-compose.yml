@@ -25,7 +25,7 @@ services:
     restart: always
     networks:
       app_net:
-        ipv4_address: 172.16.238.19
+        ipv4_address: 172.16.238.9
         aliases:
           - docker
     ports:
